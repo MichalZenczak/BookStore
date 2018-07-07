@@ -29,7 +29,7 @@ public final class BookContract {
          * Name of the book.
          * Type: TEXT
          */
-        public final static String COLUMN_PRODUCT_NAME = "product name";
+        public final static String COLUMN_PRODUCT_NAME = "product_name";
 
         /**
          * Price of the book.
@@ -47,19 +47,19 @@ public final class BookContract {
          * Is the book in stock or not?
          * Type: INTEGER
          */
-        public final static String COLUMN_IN_STOCK = "in stock";
+        public final static String COLUMN_IN_STOCK = "in_stock";
 
         /**
          * Name of the supplier.
          * Type: TEXT
          */
-        public final static String COLUMN_SUPPLIER_NAME = "supplier name";
+        public final static String COLUMN_SUPPLIER_NAME = "supplier_name";
 
         /**
          * Phone number of the supplier.
          * Type: TEXT
          */
-        public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "supplier phone number";
+        public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "supplier_phone_number";
 
         /**
          * Possible values for the in stock column.
