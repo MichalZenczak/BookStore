@@ -20,40 +20,52 @@ public final class BookContract {
         public final static String TABLE_NAME = "books";
 
         /**
-         * Unique ID number for the pet (only for use in the database table).
+         * Unique ID number for the book.
          * Type: INTEGER
          */
         public final static String _ID = BaseColumns._ID;
 
         /**
-         * Name of the pet.
+         * Name of the book.
          * Type: TEXT
          */
         public final static String COLUMN_PRODUCT_NAME = "product name";
 
         /**
-         * Name of the pet.
+         * Price of the book.
          * Type: INTEGER
          */
         public final static String COLUMN_PRICE = "price";
 
         /**
-         * Name of the pet.
+         * Quantity of the book.
          * Type: INTEGER
          */
         public final static String COLUMN_QUANTITY = "quantity";
 
         /**
-         * Name of the pet.
+         * Is the book in stock or not?
+         * Type: INTEGER
+         */
+        public final static String COLUMN_IN_STOCK = "in stock";
+
+        /**
+         * Name of the supplier.
          * Type: TEXT
          */
         public final static String COLUMN_SUPPLIER_NAME = "supplier name";
 
         /**
-         * Name of the pet.
+         * Phone number of the supplier.
          * Type: TEXT
          */
         public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "supplier phone number";
+
+        /**
+         * Possible values for the in stock column.
+         */
+        public final static int inStock_NO = 0;
+        public final static int inStock_YES = 1;
     }
 
 

@@ -3,6 +3,7 @@ package com.example.michal.bookstore.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.example.michal.bookstore.data.BookContract.BookEntry;
 
 /**
  * Database helper for Book Store app. Manages database creation and version management.
