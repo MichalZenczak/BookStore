@@ -14,7 +14,7 @@ import com.example.michal.bookstore.data.BookContract.BookEntry;
 
 public class BookDbHelper extends SQLiteOpenHelper {
 
-    public final static String LOG_TAG = BookDbHelper.class.getSimpleName();
+    private final static String LOG_TAG = BookDbHelper.class.getSimpleName();
 
     /** Name of the database file */
     private final static String DATABASE_NAME = "bookstore.db";
