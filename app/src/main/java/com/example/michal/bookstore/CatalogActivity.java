@@ -1,6 +1,7 @@
 package com.example.michal.bookstore;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -41,6 +42,12 @@ public class CatalogActivity extends AppCompatActivity {
         mBookDbHelper = new BookDbHelper(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        readFromDb();
+    }
+
     /**
      * Helper method to insert hardcoded book data into the database.
      */
@@ -51,12 +58,62 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_PRICE, "100");
         values.put(BookEntry.COLUMN_QUANTITY, "8");
         values.put(BookEntry.COLUMN_IN_STOCK, BookEntry.inStock_YES);
+        values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Joe Doe");
+        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER,"666-666-666");
         long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
 
         Log.i(LOG_TAG, values.toString());
 
         Toast toast = Toast.makeText(this, "Dummy Data inserted with ID: " + newRowId, Toast.LENGTH_SHORT);
         toast.show();
+    }
+    /**
+     * Helper method to read data from the database.
+     * Info is display in the logcat.
+     */
+    private void readFromDb(){
+        SQLiteDatabase db = mBookDbHelper.getReadableDatabase();
+
+        String[] projection ={
+                BookEntry._ID,
+                BookEntry.COLUMN_PRODUCT_NAME,
+                BookEntry.COLUMN_PRICE,
+                BookEntry.COLUMN_IN_STOCK
+        };
+
+        Cursor cursor = db.query(
+                BookEntry.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        try {
+            String headerString = BookEntry._ID
+                    + " - " + BookEntry.COLUMN_PRODUCT_NAME
+                    + " - " + BookEntry.COLUMN_PRICE
+                    + " - " + BookEntry.COLUMN_IN_STOCK;
+
+            Log.i(LOG_TAG, headerString);
+
+            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
+            int productNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRICE);
+            int inStockColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_IN_STOCK);
+
+            while (cursor.moveToNext()){
+                Log.i(LOG_TAG, "\n"
+                        + Integer.toString(cursor.getInt(idColumnIndex))
+                        + " - " + cursor.getString(productNameColumnIndex)
+                        + " - " + cursor.getInt(priceColumnIndex)
+                        + " - " + cursor.getInt(inStockColumnIndex));
+            }
+        } finally {
+            cursor.close();
+        }
     }
 
     @Override
@@ -76,9 +133,9 @@ public class CatalogActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_insert_dummy_data) {
             insertBook();
+            readFromDb();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
