@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.michal.bookstore.data.BookContract.BookEntry;
@@ -38,6 +39,10 @@ public class CatalogActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        ListView bookListView = findViewById(R.id.content_list);
+
+
 
         mBookDbHelper = new BookDbHelper(this);
     }

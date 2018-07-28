@@ -24,6 +24,8 @@ public final class BookContract {
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
+
+
         /** Name of database table for books */
         public final static String TABLE_NAME = "books";
 
