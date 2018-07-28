@@ -2,36 +2,41 @@ package com.example.michal.bookstore;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.michal.bookstore.data.BookContract.BookEntry;
-import com.example.michal.bookstore.data.BookDbHelper;
 
-public class CatalogActivity extends AppCompatActivity {
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private final static String LOG_TAG = CatalogActivity.class.getSimpleName();
-    private BookDbHelper mBookDbHelper;
+    private BookCursorAdapter mBookCursorAdapter;
+    private static final int BOOK_LOADER = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        //TODO: change action on fab click to open new activity. Intent.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,23 +46,22 @@ public class CatalogActivity extends AppCompatActivity {
         });
 
         ListView bookListView = findViewById(R.id.content_list);
+        TextView emptyTv = findViewById(R.id.empty_text_view);
+        emptyTv.setText(R.string.text_empty_text_view);
+        bookListView.setEmptyView(emptyTv);
 
+        mBookCursorAdapter = new BookCursorAdapter(this,null);
+        bookListView.setAdapter(mBookCursorAdapter);
 
+        //TODO: create onItemClickListener on list items
 
-        mBookDbHelper = new BookDbHelper(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        readFromDb();
+        getSupportLoaderManager().initLoader(BOOK_LOADER,null,this);
     }
 
     /**
      * Helper method to insert hardcoded book data into the database.
      */
     private void insertBook(){
-        SQLiteDatabase db = mBookDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Fancy Book Title");
         values.put(BookEntry.COLUMN_PRICE, "100");
@@ -65,60 +69,11 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_IN_STOCK, BookEntry.inStock_YES);
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Joe Doe");
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER,"666-666-666");
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
-
-        Log.i(LOG_TAG, values.toString());
-
-        Toast toast = Toast.makeText(this, "Dummy Data inserted with ID: " + newRowId, Toast.LENGTH_SHORT);
-        toast.show();
+        getContentResolver().insert(BookEntry.CONTENT_URI,values);
     }
-    /**
-     * Helper method to read data from the database.
-     * Info is display in the logcat.
-     */
-    private void readFromDb(){
-        SQLiteDatabase db = mBookDbHelper.getReadableDatabase();
 
-        String[] projection ={
-                BookEntry._ID,
-                BookEntry.COLUMN_PRODUCT_NAME,
-                BookEntry.COLUMN_PRICE,
-                BookEntry.COLUMN_IN_STOCK
-        };
-
-        Cursor cursor = db.query(
-                BookEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        try {
-            String headerString = BookEntry._ID
-                    + " - " + BookEntry.COLUMN_PRODUCT_NAME
-                    + " - " + BookEntry.COLUMN_PRICE
-                    + " - " + BookEntry.COLUMN_IN_STOCK;
-
-            Log.i(LOG_TAG, headerString);
-
-            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
-            int productNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRICE);
-            int inStockColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_IN_STOCK);
-
-            while (cursor.moveToNext()){
-                Log.i(LOG_TAG, "\n"
-                        + Integer.toString(cursor.getInt(idColumnIndex))
-                        + " - " + cursor.getString(productNameColumnIndex)
-                        + " - " + cursor.getInt(priceColumnIndex)
-                        + " - " + cursor.getInt(inStockColumnIndex));
-            }
-        } finally {
-            cursor.close();
-        }
+    private void deleteAllBooks(){
+        getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
     }
 
     @Override
@@ -133,14 +88,39 @@ public class CatalogActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int selectedItemId = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_insert_dummy_data) {
-            insertBook();
-            readFromDb();
-            return true;
+        switch (selectedItemId){
+            case R.id.action_insert_dummy_data:
+                insertBook();
+                break;
+            case R.id.action_delete_all_data:
+                deleteAllBooks();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, @Nullable Bundle args) {
+        String[] projection ={
+                BookEntry._ID,
+                BookEntry.COLUMN_PRODUCT_NAME,
+                BookEntry.COLUMN_PRICE,
+                BookEntry.COLUMN_QUANTITY
+        };
+        //This Loader will execute the Content Provider's query method on a background thread
+        return new CursorLoader(this, BookEntry.CONTENT_URI, projection, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        mBookCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        mBookCursorAdapter.swapCursor(null);
     }
 }

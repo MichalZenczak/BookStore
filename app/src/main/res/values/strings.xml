@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Book Store</string>
+    <string name="text_price">Price: </string>
+    <string name="text_quantity">Quantity: </string>
+    <string name="text_empty_text_view">There\'s no data to display. To insert data into the database
+        go to the menu options and tap \"Insert Dummy Data\" or tap the plus button and insert your own data.</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="action_delete_all_data">Delete All Data</string>
 </resources>

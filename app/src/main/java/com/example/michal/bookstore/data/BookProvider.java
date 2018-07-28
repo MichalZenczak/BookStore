@@ -38,7 +38,6 @@ public class BookProvider extends ContentProvider{
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-
         SQLiteDatabase database = mBookDBHelper.getReadableDatabase();
         Cursor cursor = null;
         int match = sUriMatcher.match(uri);
@@ -57,8 +56,7 @@ public class BookProvider extends ContentProvider{
             default:
                 throw new IllegalArgumentException("Cannot query unknown uri: " + uri);
         }
-
-        //TODO: set notification change on URI
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -71,9 +69,10 @@ public class BookProvider extends ContentProvider{
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        int match = sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
+
         switch (match){
-            case BOOK_ID:
+            case BOOKS:
                 return insertBook(uri, values);
             default:
                 throw new IllegalArgumentException("Insertion is not supported fo uri: " + uri);
@@ -82,31 +81,34 @@ public class BookProvider extends ContentProvider{
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
+        int rowsDeleted;
+        final int match = sUriMatcher.match(uri);
 
-        int match = sUriMatcher.match(uri);
         switch (match){
             case BOOKS:
-                return database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             case BOOK_ID:
                 selection = BookEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                return database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for uri: " + uri);
         }
 
-        //TODO: set notification change on URI
+        if (rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri,null);
+        }
+
+        return rowsDeleted;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection,
                       @Nullable String[] selectionArgs) {
-
-        //TODO: insert code for user input verification
-
-        int match = sUriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         switch (match){
             case BOOKS:
                 return updateBook(uri, values, selection, selectionArgs);
@@ -130,8 +132,7 @@ public class BookProvider extends ContentProvider{
             Log.e(LOG_TAG, "Failed to insert row for uri: " + uri);
             return null;
         }
-
-        //TODO: set notification change on URI
+        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
 
@@ -140,10 +141,12 @@ public class BookProvider extends ContentProvider{
         //TODO: insert code for user input verification
 
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
-        int updatedRowId = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
 
-        //TODO: set notification change on URI
+        if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
 
-        return updatedRowId;
+        return rowsUpdated;
     }
 }
