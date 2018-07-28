@@ -25,8 +25,10 @@ public class BookCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView productNameTv = view.findViewById(R.id.product_name);
-        TextView priceTv = view.findViewById(R.id.price);
-        TextView quantityTv = view.findViewById(R.id.quantity);
+        TextView priceTvLabel = view.findViewById(R.id.label_price);
+        TextView quantityTvLabel = view.findViewById(R.id.label_quantity);
+        TextView priceTvValue = view.findViewById(R.id.value_price);
+        TextView quantityTvValue = view.findViewById(R.id.value_quantity);
 
         int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRICE);
@@ -37,14 +39,14 @@ public class BookCursorAdapter extends CursorAdapter {
         String quantity = cursor.getString(quantityColumnIndex);
 
         productNameTv.setText(productName);
-        priceTv.setText(R.string.text_price);
-        priceTv.append(price);
+        priceTvLabel.setText(R.string.text_price);
+        priceTvValue.setText(price);
 
-        quantityTv.setText(R.string.text_quantity);
+        quantityTvLabel.setText(R.string.text_quantity);
         if (Integer.parseInt(quantity) != 0){
-            quantityTv.append(quantity);
+            quantityTvValue.setText(quantity);
         }else {
-            quantityTv.append("0");
+            quantityTvValue.setText("0");
         }
 
 

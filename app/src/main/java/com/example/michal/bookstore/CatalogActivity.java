@@ -12,6 +12,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.michal.bookstore.data.BookContract.BookEntry;
+
+import java.util.Random;
 
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -62,14 +65,22 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      * Helper method to insert hardcoded book data into the database.
      */
     private void insertBook(){
+        Random rand = new Random();
+
+        String phoneNumber = String.valueOf(rand.nextInt(1000)) +
+                "-" + String.valueOf(rand.nextInt(1000)) +
+                "-" + String.valueOf(rand.nextInt(1000));
+
+        Log.i(LOG_TAG,String.valueOf(phoneNumber));
+
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Fancy Book Title");
-        values.put(BookEntry.COLUMN_PRICE, "100");
-        values.put(BookEntry.COLUMN_QUANTITY, "8");
+        values.put(BookEntry.COLUMN_PRICE, rand.nextInt(100));
+        values.put(BookEntry.COLUMN_QUANTITY, rand.nextInt(20));
         values.put(BookEntry.COLUMN_IN_STOCK, BookEntry.inStock_YES);
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Joe Doe");
-        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER,"666-666-666");
-        getContentResolver().insert(BookEntry.CONTENT_URI,values);
+        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumber);
+        getContentResolver().insert(BookEntry.CONTENT_URI, values);
     }
 
     private void deleteAllBooks(){
