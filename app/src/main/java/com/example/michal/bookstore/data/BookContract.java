@@ -1,5 +1,6 @@
 package com.example.michal.bookstore.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -10,11 +11,18 @@ public final class BookContract {
 
     private BookContract(){}
 
+    public static final String CONTENT_AUTHORITY = "com.example.michal.bookstore";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_BOOKS = "books";
+
+
     /**
      * Inner class that defines constant values for the books database table.
      * Each entry in the table represents a single book.
      */
     public final static class BookEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_BOOKS);
 
         /** Name of database table for books */
         public final static String TABLE_NAME = "books";
