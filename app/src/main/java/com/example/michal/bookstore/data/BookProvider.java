@@ -82,7 +82,22 @@ public class BookProvider extends ContentProvider{
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+        SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        switch (match){
+            case BOOKS:
+                return database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+            case BOOK_ID:
+                selection = BookEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for uri: " + uri);
+        }
+
+        //TODO: set notification change on URI
     }
 
     @Override
