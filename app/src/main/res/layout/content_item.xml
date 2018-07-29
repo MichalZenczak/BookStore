@@ -85,7 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/label_quantity"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/label_price"
+        app:layout_constraintStart_toEndOf="@+id/label_price_editor"
         app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
     <TextView
