@@ -39,7 +39,7 @@ public class BookProvider extends ContentProvider{
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         SQLiteDatabase database = mBookDBHelper.getReadableDatabase();
-        Cursor cursor = null;
+        Cursor cursor;
         int match = sUriMatcher.match(uri);
 
         switch (match){
@@ -50,7 +50,7 @@ public class BookProvider extends ContentProvider{
             case BOOK_ID:
                 selection = BookEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null,null, sortOrder);
                 break;
             default:

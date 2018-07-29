@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -40,9 +39,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-
-        //TODO: change action on fab click to open new activity. Intent.
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,13 +59,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
-                Log.i(LOG_TAG, currentBookUri.toString());
                 Intent editExistingBookIntent = new Intent(CatalogActivity.this, EditorActivity.class);
                 editExistingBookIntent.setData(currentBookUri);
                 startActivity(editExistingBookIntent);
             }
         });
-
         getSupportLoaderManager().initLoader(BOOK_LOADER,null,this);
     }
 
@@ -86,14 +80,14 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Fancy Book Title");
         values.put(BookEntry.COLUMN_PRICE, rand.nextInt(100));
         values.put(BookEntry.COLUMN_QUANTITY, rand.nextInt(20));
-        values.put(BookEntry.COLUMN_IN_STOCK, BookEntry.inStock_YES);
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, "John Doe");
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumber);
         getContentResolver().insert(BookEntry.CONTENT_URI, values);
     }
 
     private void deleteAllBooks(){
-        getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
+        int rowsDeleted = getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
+        Log.v(LOG_TAG, rowsDeleted + " rows deleted from pet database");
     }
 
     @Override
@@ -113,10 +107,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         switch (selectedItemId){
             case R.id.action_insert_dummy_data:
                 insertBook();
-                break;
+                return true;
             case R.id.action_delete_all_data:
                 deleteAllBooks();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

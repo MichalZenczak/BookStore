@@ -14,8 +14,8 @@
         android:layout_marginStart="8dp"
         android:text="Product Name"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
-        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintBaseline_toBaselineOf="@+id/value_product_name_editor"
+        app:layout_constraintEnd_toStartOf="@+id/value_product_name_editor"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -26,8 +26,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Price"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText2"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/value_price_editor"
+        app:layout_constraintEnd_toStartOf="@+id/value_price_editor"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -38,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Quantity"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText3"
+        app:layout_constraintBaseline_toBaselineOf="@+id/value_quantity_editor"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Supplier Name"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/value_supplier_name_editor"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -59,49 +59,46 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="Supplier Phone"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText5"
-        app:layout_constraintEnd_toStartOf="@+id/editText5"
+        app:layout_constraintBaseline_toBaselineOf="@+id/value_supplier_phone_editor"
+        app:layout_constraintEnd_toStartOf="@+id/value_supplier_phone_editor"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/value_product_name_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/value_price_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/value_product_name_editor" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/value_quantity_editor"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toStartOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/value_supplier_name_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -109,23 +106,21 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/label_supplier_name_editor"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/value_quantity_editor" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/value_supplier_phone_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/value_supplier_name_editor" />
 
     <Button
         android:id="@+id/button2"
@@ -134,8 +129,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Button"
-        app:layout_constraintEnd_toStartOf="@+id/editText3"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintEnd_toStartOf="@+id/value_quantity_editor"
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
         tools:text="+" />
 
     <Button
@@ -146,7 +141,7 @@
         android:layout_marginTop="8dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
         tools:text="-" />
 
     <Button

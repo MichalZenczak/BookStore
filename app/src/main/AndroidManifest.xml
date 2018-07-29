@@ -20,13 +20,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".EditorActivity"
+            android:parentActivityName=".CatalogActivity"/>
+
         <provider
             android:name=".data.BookProvider"
             android:authorities="com.example.michal.bookstore"
             android:exported="false" />
-
-        <activity android:name=".EditorActivity"
-            android:parentActivityName=".CatalogActivity"/>
     </application>
 
 </manifest>

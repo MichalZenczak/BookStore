@@ -18,6 +18,7 @@ import com.example.michal.bookstore.data.BookContract.BookEntry;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final int EDIT_BOOK_LOADER = 0;
     private EditText mProductNameEditText;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
@@ -30,15 +31,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         mCurrentBookUri = intent.getData();
 
         if (mCurrentBookUri == null){
             setTitle(R.string.editor_activity_title_new_book);
         }else {
             setTitle(R.string.editor_activity_title_edit_book);
+            getSupportLoaderManager().initLoader(EDIT_BOOK_LOADER,null,this);
         }
 
+        mProductNameEditText = findViewById(R.id.value_product_name_editor);
+        mPriceEditText = findViewById(R.id.value_price_editor);
+        mQuantityEditText = findViewById(R.id.value_quantity_editor);
+        mSupplierNameEditText = findViewById(R.id.value_supplier_name_editor);
+        mSupplierPhoneEditText = findViewById(R.id.value_supplier_phone_editor);
     }
 
     @NonNull
@@ -52,23 +59,43 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 BookEntry.COLUMN_SUPPLIER_NAME,
                 BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER
         };
+
         return new CursorLoader(this,
                 mCurrentBookUri,
                 projection,
                 null,
                 null,
-                null
-        );
+                null);
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        if (data == null || data.getCount() < 1) {
+            return;
+        }
 
+        if (data.moveToFirst()){
+            String productName = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_PRODUCT_NAME));
+            int price = data.getInt(data.getColumnIndexOrThrow(BookEntry.COLUMN_PRICE));
+            int quantity = data.getInt(data.getColumnIndexOrThrow(BookEntry.COLUMN_QUANTITY));
+            String supplierName = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_SUPPLIER_NAME));
+            String supplierPhone = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER));
+
+            mProductNameEditText.setText(productName);
+            mPriceEditText.setText(String.valueOf(price));
+            mQuantityEditText.setText(String.valueOf(quantity));
+            mSupplierNameEditText.setText(supplierName);
+            mSupplierPhoneEditText.setText(supplierPhone);
+        }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
+        mProductNameEditText.setText("");
+        mPriceEditText.setText(String.valueOf(0));
+        mQuantityEditText.setText(String.valueOf(0));
+        mSupplierNameEditText.setText("");
+        mSupplierPhoneEditText.setText("");
     }
 
     @Override

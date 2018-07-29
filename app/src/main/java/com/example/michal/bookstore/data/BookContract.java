@@ -54,12 +54,6 @@ public final class BookContract {
         public final static String COLUMN_QUANTITY = "quantity";
 
         /**
-         * Is the book in stock or not?
-         * Type: INTEGER
-         */
-        public final static String COLUMN_IN_STOCK = "in_stock";
-
-        /**
          * Name of the supplier.
          * Type: TEXT
          */
@@ -71,11 +65,6 @@ public final class BookContract {
          */
         public final static String COLUMN_SUPPLIER_PHONE_NUMBER = "supplier_phone_number";
 
-        /**
-         * Possible values for the in stock column.
-         */
-        public final static int inStock_NO = 0;
-        public final static int inStock_YES = 1;
     }
 
 
