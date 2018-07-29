@@ -6,4 +6,6 @@
         go to the menu options and tap \"Insert Dummy Data\" or tap the plus button and insert your own data.</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_data">Delete All Data</string>
+    <string name="editor_activity_title_new_book">Add book</string>
+    <string name="editor_activity_title_edit_book">Edit book</string>
 </resources>

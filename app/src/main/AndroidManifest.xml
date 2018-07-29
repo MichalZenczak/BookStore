@@ -19,10 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
-            android:authorities="com.example.michal.bookstore"
             android:name=".data.BookProvider"
+            android:authorities="com.example.michal.bookstore"
             android:exported="false" />
+
+        <activity android:name=".EditorActivity"
+            android:parentActivityName=".CatalogActivity"/>
     </application>
 
 </manifest>

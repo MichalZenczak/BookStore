@@ -1,7 +1,10 @@
 package com.example.michal.bookstore;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.michal.bookstore.data.BookContract.BookEntry;
@@ -42,8 +46,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent addNewBookIntent = new Intent(CatalogActivity.this, EditorActivity.class);
+                startActivity(addNewBookIntent);
             }
         });
 
@@ -55,7 +59,16 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         mBookCursorAdapter = new BookCursorAdapter(this,null);
         bookListView.setAdapter(mBookCursorAdapter);
 
-        //TODO: create onItemClickListener on list items
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+                Log.i(LOG_TAG, currentBookUri.toString());
+                Intent editExistingBookIntent = new Intent(CatalogActivity.this, EditorActivity.class);
+                editExistingBookIntent.setData(currentBookUri);
+                startActivity(editExistingBookIntent);
+            }
+        });
 
         getSupportLoaderManager().initLoader(BOOK_LOADER,null,this);
     }
@@ -74,7 +87,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         values.put(BookEntry.COLUMN_PRICE, rand.nextInt(100));
         values.put(BookEntry.COLUMN_QUANTITY, rand.nextInt(20));
         values.put(BookEntry.COLUMN_IN_STOCK, BookEntry.inStock_YES);
-        values.put(BookEntry.COLUMN_SUPPLIER_NAME, "Joe Doe");
+        values.put(BookEntry.COLUMN_SUPPLIER_NAME, "John Doe");
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, phoneNumber);
         getContentResolver().insert(BookEntry.CONTENT_URI, values);
     }
