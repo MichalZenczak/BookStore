@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if (mCurrentBookUri == null){
             setTitle(R.string.editor_activity_title_new_book);
+            invalidateOptionsMenu();
         }else {
             setTitle(R.string.editor_activity_title_edit_book);
             getSupportLoaderManager().initLoader(EDIT_BOOK_LOADER,null,this);
@@ -101,6 +103,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierPhoneEditText.setText("");
     }
 
+    /**
+     * This method is called after invalidateOptionsMenu(), so that the
+     * menu can be updated (some menu items can be hidden or made visible).
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this is a new pet, hide the "Delete" menu item.
+        if (mCurrentBookUri == null){
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_editor, menu);
@@ -117,6 +134,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 break;
             case R.id.action_delete:
                 deleteBook();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -195,6 +213,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private void deleteBook(){
-        //TODO: fill in this method
+        if (mCurrentBookUri != null){
+            int rowsDeleted = getContentResolver().delete(mCurrentBookUri,null,null);
+            // check whether the deletion was successful
+            if (rowsDeleted == 0){
+                //deletion failed
+                Toast.makeText(this, R.string.editor_activity_delete_failed, Toast.LENGTH_SHORT).show();
+            }else {
+                //deletion was successful
+                Toast.makeText(this, R.string.editor_activity_delete_successful, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -16,5 +16,6 @@
     <string name="editor_activity_update_failed">Product updating failed</string>
     <string name="editor_activity_update_successful">Product updated</string>
     <string name="editor_activity_no_negative_values">Negative values not allowed</string>
-
+    <string name="editor_activity_delete_successful">Product deleted</string>
+    <string name="editor_activity_delete_failed">Product deletion failed</string>
 </resources>
