@@ -8,4 +8,6 @@
     <string name="action_delete_all_data">Delete All Data</string>
     <string name="editor_activity_title_new_book">Add book</string>
     <string name="editor_activity_title_edit_book">Edit book</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
 </resources>

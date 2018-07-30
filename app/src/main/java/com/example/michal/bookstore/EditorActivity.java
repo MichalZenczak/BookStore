@@ -100,12 +100,35 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedItem = item.getItemId();
+        switch (selectedItem){
+            case R.id.action_save:
+                saveBook();
+                break;
+            case R.id.action_delete:
+                deleteBook();
+                break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveBook(){
+        String productNameString = mProductNameEditText.getText().toString().trim();
+        String priceString = mPriceEditText.getText().toString().trim();
+        String quantityString = mQuantityEditText.getText().toString().trim();
+        String supplierNameString = mSupplierNameEditText.getText().toString().trim();
+        String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+
+        //TODO: finish this method
+    }
+
+    private void deleteBook(){
+        //TODO: fill in this method
     }
 }
