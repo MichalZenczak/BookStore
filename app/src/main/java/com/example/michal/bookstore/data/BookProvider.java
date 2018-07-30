@@ -138,7 +138,33 @@ public class BookProvider extends ContentProvider{
 
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs){
 
-        //TODO: insert code for user input verification
+        //TODO: verify if this sanity checks are correct
+
+        if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)){
+            String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
+            if (productName == null){
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+
+        if (values.containsKey(BookEntry.COLUMN_PRICE)){
+            Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
+            if (price == null || price < 0){
+                throw new IllegalArgumentException("Price must be greater than zero!");
+            }
+        }
+
+        if (values.containsKey(BookEntry.COLUMN_QUANTITY)){
+            Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
+            if (quantity != null && quantity < 0){
+                throw new IllegalArgumentException("Quantity must be greater than zero");
+            }
+        }
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0){
+            return 0;
+        }
+
 
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
