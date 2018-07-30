@@ -6,8 +6,15 @@
         go to the menu options and tap \"Insert Dummy Data\" or tap the plus button and insert your own data.</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
     <string name="action_delete_all_data">Delete All Data</string>
-    <string name="editor_activity_title_new_book">Add book</string>
-    <string name="editor_activity_title_edit_book">Edit book</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="editor_activity_title_new_book">Add book</string>
+    <string name="editor_activity_title_edit_book">Edit book</string>
+    <string name="editor_activity_required_fields_missing">Product name required!</string>
+    <string name="editor_activity_insert_failed">Product saving failed</string>
+    <string name="editor_activity_insert_successful">Product saved</string>
+    <string name="editor_activity_update_failed">Product updating failed</string>
+    <string name="editor_activity_update_successful">Product updated</string>
+    <string name="editor_activity_no_negative_values">Negative values not allowed</string>
+
 </resources>
