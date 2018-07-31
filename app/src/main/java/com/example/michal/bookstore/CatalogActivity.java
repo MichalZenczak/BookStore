@@ -137,4 +137,16 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         mBookCursorAdapter.swapCursor(null);
     }
+
+    public void decreaseQuantity(int id, int quantity){
+        Uri updatedUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+        if (quantity != 0) {
+            quantity -= 1;
+            ContentValues values = new ContentValues();
+            values.put(BookEntry.COLUMN_QUANTITY, quantity);
+            getContentResolver().update(updatedUri, values, null, null);
+        }else {
+            getContentResolver().delete(updatedUri,null, null);
+        }
+    }
 }

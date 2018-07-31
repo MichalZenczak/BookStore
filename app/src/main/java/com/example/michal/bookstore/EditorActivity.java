@@ -160,11 +160,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         int price = 0;
         if (!TextUtils.isEmpty(priceString)){
             // check if the value is not negative
-            if (Integer.parseInt(priceString) > 0){
+            if (Integer.parseInt(priceString) >= 0){
                 price = Integer.parseInt(priceString);
             }else {
-                Toast.makeText(this, R.string.editor_activity_no_negative_values,Toast.LENGTH_SHORT).show();
-                return;
+               Toast.makeText(this, R.string.editor_activity_no_negative_values,Toast.LENGTH_SHORT).show();
+               return;
             }
 
         }
@@ -175,7 +175,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)){
             // check if the value is not negative
-            if (Integer.parseInt(quantityString) > 0){
+            if (Integer.parseInt(quantityString) >= 0){
                 quantity = Integer.parseInt(quantityString);
             }
             else {

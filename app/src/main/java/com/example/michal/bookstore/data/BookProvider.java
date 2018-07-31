@@ -101,7 +101,6 @@ public class BookProvider extends ContentProvider{
         if (rowsDeleted != 0){
             getContext().getContentResolver().notifyChange(uri,null);
         }
-
         return rowsDeleted;
     }
 
@@ -123,7 +122,20 @@ public class BookProvider extends ContentProvider{
 
     private Uri insertBook(Uri uri, ContentValues values){
 
-        //TODO: insert code for user input verification
+        String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
+        if (productName == null){
+            throw new IllegalArgumentException("Product requires a name");
+        }
+
+        Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
+        if (price == null || price < 0){
+            throw new IllegalArgumentException("Price must be greater than zero!");
+        }
+
+        Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
+        if (quantity != null && quantity < 0){
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
 
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         long id = database.insert(BookEntry.TABLE_NAME, null, values);
@@ -138,8 +150,6 @@ public class BookProvider extends ContentProvider{
 
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs){
 
-        //TODO: verify if this sanity checks are correct
-
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)){
             String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
             if (productName == null){
@@ -147,9 +157,9 @@ public class BookProvider extends ContentProvider{
             }
         }
 
-        if (values.containsKey(BookEntry.COLUMN_PRICE)){
+        if (values.containsKey(BookEntry.COLUMN_PRICE)) {
             Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
-            if (price == null || price < 0){
+            if (price == null || price < 0) {
                 throw new IllegalArgumentException("Price must be greater than zero!");
             }
         }
@@ -165,14 +175,12 @@ public class BookProvider extends ContentProvider{
             return 0;
         }
 
-
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
         return rowsUpdated;
     }
 }
