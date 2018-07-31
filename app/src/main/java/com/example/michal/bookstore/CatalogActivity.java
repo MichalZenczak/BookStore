@@ -14,7 +14,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,10 +25,8 @@ import java.util.Random;
 
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    private final static String LOG_TAG = CatalogActivity.class.getSimpleName();
     private BookCursorAdapter mBookCursorAdapter;
     private static final int BOOK_LOADER = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +83,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     private void deleteAllBooks(){
-        int rowsDeleted = getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
-        Log.v(LOG_TAG, rowsDeleted + " rows deleted from pet database");
+       getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
     }
 
     @Override
@@ -103,7 +99,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int selectedItemId = item.getItemId();
-
         switch (selectedItemId){
             case R.id.action_insert_dummy_data:
                 insertBook();
