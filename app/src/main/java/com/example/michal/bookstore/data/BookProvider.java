@@ -16,7 +16,6 @@ import com.example.michal.bookstore.data.BookContract.BookEntry;
 public class BookProvider extends ContentProvider{
 
     public static final String LOG_TAG = ContentProvider.class.getSimpleName();
-
     private BookDbHelper mBookDBHelper;
     private static final int INSERTION_FAILED = -1;
     private static final int BOOKS = 100;
@@ -63,16 +62,21 @@ public class BookProvider extends ContentProvider{
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        //TODO: fill this method
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return BookEntry.CONTENT_LIST_TYPE;
+            case BOOK_ID:
+                return BookEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
-
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         final int match = sUriMatcher.match(uri);
-
         switch (match){
             case BOOKS:
                 return insertBook(uri, values);
@@ -86,7 +90,6 @@ public class BookProvider extends ContentProvider{
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         int rowsDeleted;
         final int match = sUriMatcher.match(uri);
-
         switch (match){
             case BOOKS:
                 rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
@@ -99,7 +102,6 @@ public class BookProvider extends ContentProvider{
             default:
                 throw new IllegalArgumentException("Deletion is not supported for uri: " + uri);
         }
-
         if (rowsDeleted != 0){
             getContext().getContentResolver().notifyChange(uri,null);
         }
@@ -123,25 +125,20 @@ public class BookProvider extends ContentProvider{
     }
 
     private Uri insertBook(Uri uri, ContentValues values){
-
         String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
         if (productName == null){
             throw new IllegalArgumentException("Product requires a name");
         }
-
         Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
         if (price == null || price < 0){
             throw new IllegalArgumentException("Price must be greater than zero!");
         }
-
         Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
         if (quantity != null && quantity < 0){
             throw new IllegalArgumentException("Quantity must be greater than zero");
         }
-
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         long id = database.insert(BookEntry.TABLE_NAME, null, values);
-
         if (id == INSERTION_FAILED){
             Log.e(LOG_TAG, "Failed to insert row for uri: " + uri);
             return null;
@@ -151,21 +148,18 @@ public class BookProvider extends ContentProvider{
     }
 
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs){
-
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)){
             String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
             if (productName == null){
                 throw new IllegalArgumentException("Product requires a name");
             }
         }
-
         if (values.containsKey(BookEntry.COLUMN_PRICE)) {
             Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
             if (price == null || price < 0) {
                 throw new IllegalArgumentException("Price must be greater than zero!");
             }
         }
-
         if (values.containsKey(BookEntry.COLUMN_QUANTITY)){
             Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
             if (quantity != null && quantity < 0){
@@ -176,10 +170,8 @@ public class BookProvider extends ContentProvider{
         if (values.size() == 0){
             return 0;
         }
-
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         int rowsUpdated = database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
-
         if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }

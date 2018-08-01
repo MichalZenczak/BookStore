@@ -1,10 +1,7 @@
 package com.example.michal.bookstore;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +24,6 @@ public class BookCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-
         TextView productNameTv = view.findViewById(R.id.product_name);
         TextView priceTvLabel = view.findViewById(R.id.label_price);
         TextView quantityTvLabel = view.findViewById(R.id.label_quantity);
@@ -59,7 +55,5 @@ public class BookCursorAdapter extends CursorAdapter {
                 catalogActivity.decreaseQuantity(Integer.parseInt(id), Integer.parseInt(quantity));
             }
         });
-
     }
-
 }
