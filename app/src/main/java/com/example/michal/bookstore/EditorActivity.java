@@ -1,5 +1,6 @@
 package com.example.michal.bookstore;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,27 +32,60 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mSupplierPhoneEditText;
     private Uri mCurrentBookUri;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
-        Intent intent = getIntent();
-        mCurrentBookUri = intent.getData();
-
-        if (mCurrentBookUri == null){
-            setTitle(R.string.editor_activity_title_new_book);
-            invalidateOptionsMenu();
-        }else {
-            setTitle(R.string.editor_activity_title_edit_book);
-            getSupportLoaderManager().initLoader(EDIT_BOOK_LOADER,null,this);
-        }
 
         mProductNameEditText = findViewById(R.id.value_product_name_editor);
         mPriceEditText = findViewById(R.id.value_price_editor);
         mQuantityEditText = findViewById(R.id.value_quantity_editor);
         mSupplierNameEditText = findViewById(R.id.value_supplier_name_editor);
         mSupplierPhoneEditText = findViewById(R.id.value_supplier_phone_editor);
+        Button decreaseButton = findViewById(R.id.editor_decrease_button);
+        Button increaseButton = findViewById(R.id.editor_increase_button);
+        final Button callSupplierButton = findViewById(R.id.call_supplier_button);
+
+        Intent intent = getIntent();
+        mCurrentBookUri = intent.getData();
+
+        if (mCurrentBookUri == null){
+            setTitle(R.string.editor_activity_title_new_book);
+            mQuantityEditText.setText("0");
+            invalidateOptionsMenu();
+        }else {
+            setTitle(R.string.editor_activity_title_edit_book);
+            getSupportLoaderManager().initLoader(EDIT_BOOK_LOADER,null,this);
+        }
+
+        decreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseQuantity();
+            }
+        });
+
+        increaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseQuantity();
+            }
+        });
+
+        callSupplierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+                Intent callSupplierIntent = new Intent(Intent.ACTION_DIAL);
+                callSupplierIntent.setData(Uri.parse("tel:" + supplierPhoneString));
+
+                if (callSupplierIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(callSupplierIntent);
+                }
+            }
+        });
+
     }
 
     @NonNull
@@ -223,5 +259,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, R.string.editor_activity_delete_successful, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void decreaseQuantity() {
+        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+        if (quantity != 0) {
+            quantity -= 1;
+            mQuantityEditText.setText(String.valueOf(quantity));
+        }
+    }
+
+    private void increaseQuantity(){
+        int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+            quantity += 1;
+            mQuantityEditText.setText(String.valueOf(quantity));
     }
 }

@@ -39,7 +39,7 @@
         android:layout_marginStart="8dp"
         android:text="Quantity"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_quantity_editor"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/editor_decrease_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -94,7 +94,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/editor_increase_button"
         app:layout_constraintTop_toBottomOf="@+id/value_price_editor" />
 
     <EditText
@@ -123,29 +123,29 @@
         app:layout_constraintTop_toBottomOf="@+id/value_supplier_name_editor" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/editor_decrease_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="Button"
+        android:text="-"
         app:layout_constraintEnd_toStartOf="@+id/value_quantity_editor"
-        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
-        tools:text="+" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
         tools:text="-" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/editor_increase_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="+"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
+        tools:text="+" />
+
+    <Button
+        android:id="@+id/call_supplier_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
