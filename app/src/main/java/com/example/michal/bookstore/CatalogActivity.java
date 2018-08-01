@@ -69,9 +69,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
      */
     private void insertBook(){
         Random rand = new Random();
-        String phoneNumber = String.valueOf(rand.nextInt(1000))
-                + String.valueOf(rand.nextInt(1000))
-                + String.valueOf(rand.nextInt(1000));
+        String phoneNumber = "+" + String.valueOf(rand.nextInt(99) + 1)
+                + String.valueOf(rand.nextInt(900) + 100)
+                + String.valueOf(rand.nextInt(900) + 100)
+                + String.valueOf(rand.nextInt(900) + 100);
 
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, "Fancy Book Title");
