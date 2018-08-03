@@ -66,9 +66,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         getSupportLoaderManager().initLoader(BOOK_LOADER,null,this);
     }
 
-    /**
-     * Helper method to insert hardcoded book data into the database.
-     */
     private void insertBook(){
         Random rand = new Random();
         String phoneNumber = "+" + String.valueOf(rand.nextInt(99) + 1)

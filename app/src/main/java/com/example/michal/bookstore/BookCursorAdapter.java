@@ -38,7 +38,7 @@ public class BookCursorAdapter extends CursorAdapter {
 
         final String id = cursor.getString(idColumnIndex);
         String productName = cursor.getString(nameColumnIndex);
-        String price =cursor.getString(priceColumnIndex);
+        String price = cursor.getString(priceColumnIndex);
         final String quantity = cursor.getString(quantityColumnIndex);
 
         productNameTv.setText(productName);

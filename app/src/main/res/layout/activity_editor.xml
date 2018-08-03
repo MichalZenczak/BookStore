@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Product Name"
+        android:text="@string/text_product_name"
         android:textAlignment="center"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_product_name_editor"
         app:layout_constraintEnd_toStartOf="@+id/value_product_name_editor"
@@ -25,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Price"
+        android:text="@string/text_price"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_price_editor"
         app:layout_constraintEnd_toStartOf="@+id/value_price_editor"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Quantity"
+        android:text="@string/text_quantity"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_quantity_editor"
         app:layout_constraintEnd_toStartOf="@+id/editor_decrease_button"
         app:layout_constraintHorizontal_bias="0.0"
@@ -48,17 +47,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Supplier Name"
+        android:text="@string/text_supplier_name"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_supplier_name_editor"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/label_supplier_phone"
+        android:id="@+id/label_supplier_phone_editor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Supplier Phone"
+        android:text="@string/text_supplier_phone"
         app:layout_constraintBaseline_toBaselineOf="@+id/value_supplier_phone_editor"
         app:layout_constraintEnd_toStartOf="@+id/value_supplier_phone_editor"
         app:layout_constraintHorizontal_bias="0.0"
@@ -71,7 +70,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +81,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/value_product_name_editor" />
 
@@ -93,7 +92,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toStartOf="@+id/editor_increase_button"
         app:layout_constraintTop_toBottomOf="@+id/value_price_editor" />
 
@@ -118,8 +117,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="+48654852123"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/value_supplier_name_editor" />
 
@@ -129,10 +127,9 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="-"
+        android:text="@string/text_decrease"
         app:layout_constraintEnd_toStartOf="@+id/value_quantity_editor"
-        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
-        tools:text="-" />
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor" />
 
     <Button
         android:id="@+id/editor_increase_button"
@@ -140,10 +137,9 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="+"
+        android:text="@string/text_increase"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"
-        tools:text="+" />
+        app:layout_constraintTop_toBottomOf="@+id/value_price_editor"/>
 
     <Button
         android:id="@+id/call_supplier_button"
@@ -153,7 +149,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Call Supplier"
+        android:text="@string/text_call_supplier"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

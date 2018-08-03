@@ -1,6 +1,5 @@
 package com.example.michal.bookstore;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +33,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mSupplierPhoneEditText;
     private Uri mCurrentBookUri;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +54,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             setTitle(R.string.editor_activity_title_new_book);
             mQuantityEditText.setText("0");
             invalidateOptionsMenu();
+            callSupplierButton.setVisibility(View.GONE);
         }else {
             setTitle(R.string.editor_activity_title_edit_book);
             getSupportLoaderManager().initLoader(EDIT_BOOK_LOADER,null,this);
@@ -118,7 +117,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if (data.moveToFirst()){
             String productName = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_PRODUCT_NAME));
-            int price = data.getInt(data.getColumnIndexOrThrow(BookEntry.COLUMN_PRICE));
+            double price = data.getDouble(data.getColumnIndexOrThrow(BookEntry.COLUMN_PRICE));
             int quantity = data.getInt(data.getColumnIndexOrThrow(BookEntry.COLUMN_QUANTITY));
             String supplierName = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_SUPPLIER_NAME));
             String supplierPhone = data.getString(data.getColumnIndexOrThrow(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER));
@@ -199,9 +198,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // If the price is not provided by the user, don't try to parse the string into an
         // integer value. Use 0 by default.
-        int price = 0;
+        double price = 0;
         if (!TextUtils.isEmpty(priceString)){
-            price = Integer.parseInt(priceString);
+            price = Double.parseDouble(priceString);
         }
         values.put(BookEntry.COLUMN_PRICE, price);
 
