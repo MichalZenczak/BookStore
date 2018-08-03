@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.michal.bookstore.R;
 import com.example.michal.bookstore.data.BookContract.BookEntry;
 
 public class BookProvider extends ContentProvider{
