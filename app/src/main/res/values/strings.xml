@@ -16,4 +16,8 @@
     <string name="editor_activity_successful_save">Product saved successfully!</string>
     <string name="editor_activity_successful_delete">Product deleted successfully!</string>
     <string name="editor_activity_deletion_failed">Product deletion failed!</string>
+    <string name="editor_activity_delete_msg">Delete this item?</string>
+    <string name="catalog_activity_delete_msg">Delete all data in the database?</string>
+    <string name="delete_dialog_btn">Delete</string>
+    <string name="cancel_dialog_btn">Cancel</string>
 </resources>

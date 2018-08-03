@@ -2,6 +2,7 @@ package com.example.michal.bookstore;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -168,9 +170,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 finish();
                 break;
             case R.id.action_delete:
-                deleteBook();
-                finish();
-                break;
+                showDeleteConfirmationDialog();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -243,6 +244,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Toast.makeText(this, R.string.editor_activity_successful_delete, Toast.LENGTH_SHORT).show();
             }
         }
+        finish();
     }
 
     private void decreaseQuantity() {
@@ -259,5 +261,25 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityEditText.setText(String.valueOf(quantity));
     }
 
+    private void showDeleteConfirmationDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.editor_activity_delete_msg);
+        builder.setPositiveButton(R.string.delete_dialog_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteBook();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_dialog_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (dialog != null){
+                    dialog.dismiss();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 }
