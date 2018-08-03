@@ -16,5 +16,4 @@
     <string name="editor_activity_successful_save">Product saved successfully!</string>
     <string name="editor_activity_successful_delete">Product deleted successfully!</string>
     <string name="editor_activity_deletion_failed">Product deletion failed!</string>
-    <string name="content_provider_illegal_argument_exception">%s required!</string>
 </resources>
