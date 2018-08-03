@@ -10,13 +10,11 @@
     <string name="action_delete">Delete</string>
     <string name="editor_activity_title_new_book">Add book</string>
     <string name="editor_activity_title_edit_book">Edit book</string>
-    <string name="editor_activity_required_fields_missing">Product name required!</string>
-    <string name="editor_activity_insert_failed">Product saving failed</string>
-    <string name="editor_activity_insert_successful">Product saved</string>
-    <string name="editor_activity_update_failed">Product updating failed</string>
-    <string name="editor_activity_update_successful">Product updated</string>
-    <string name="editor_activity_no_negative_values">Negative values not allowed</string>
-    <string name="editor_activity_delete_successful">Product deleted</string>
-    <string name="editor_activity_delete_failed">Product deletion failed</string>
+    <string name="editor_activity_missing_fields">You left some fields empty. Please try again!</string>
+    <string name="editor_activity_negative_price">Price cannot be negative. Please try again!</string>
+    <string name="editor_activity_negative_quantity">Quantity cannot be negative. Please try again!</string>
+    <string name="editor_activity_successful_save">Product saved successfully!</string>
+    <string name="editor_activity_successful_delete">Product deleted successfully!</string>
+    <string name="editor_activity_deletion_failed">Product deletion failed!</string>
     <string name="content_provider_illegal_argument_exception">%s required!</string>
 </resources>

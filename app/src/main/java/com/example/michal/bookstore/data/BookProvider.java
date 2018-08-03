@@ -10,7 +10,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.michal.bookstore.R;
 import com.example.michal.bookstore.data.BookContract.BookEntry;
 
 public class BookProvider extends ContentProvider{
@@ -125,17 +127,15 @@ public class BookProvider extends ContentProvider{
     }
 
     private Uri insertBook(Uri uri, ContentValues values){
-        String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-        if (productName == null){
-            throw new IllegalArgumentException("Product requires a name");
-        }
         Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
-        if (price == null || price < 0){
-            throw new IllegalArgumentException("Price must be greater than zero!");
+        if (price != null && price < 0){
+            Toast.makeText(getContext(), R.string.editor_activity_negative_price,Toast.LENGTH_SHORT).show();
+            return null;
         }
         Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
         if (quantity != null && quantity < 0){
-            throw new IllegalArgumentException("Quantity must be greater than zero");
+            Toast.makeText(getContext(), R.string.editor_activity_negative_quantity,Toast.LENGTH_SHORT).show();
+            return null;
         }
         SQLiteDatabase database = mBookDBHelper.getWritableDatabase();
         long id = database.insert(BookEntry.TABLE_NAME, null, values);
@@ -148,22 +148,18 @@ public class BookProvider extends ContentProvider{
     }
 
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs){
-        if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)){
-            String productName = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-            if (productName == null){
-                throw new IllegalArgumentException("Product requires a name");
-            }
-        }
         if (values.containsKey(BookEntry.COLUMN_PRICE)) {
             Integer price = values.getAsInteger(BookEntry.COLUMN_PRICE);
-            if (price == null || price < 0) {
-                throw new IllegalArgumentException("Price must be greater than zero!");
+            if (price != null && price < 0) {
+                Toast.makeText(getContext(), R.string.editor_activity_negative_price,Toast.LENGTH_SHORT).show();
+                return 0;
             }
         }
         if (values.containsKey(BookEntry.COLUMN_QUANTITY)){
             Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
             if (quantity != null && quantity < 0){
-                throw new IllegalArgumentException("Quantity must be greater than zero");
+                Toast.makeText(getContext(), R.string.editor_activity_negative_quantity,Toast.LENGTH_SHORT).show();
+                return 0;
             }
         }
         // If there are no values to update, then don't try to update the database

@@ -182,8 +182,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
-        if (TextUtils.isEmpty(productNameString)){
-            Toast.makeText(this, R.string.editor_activity_required_fields_missing, Toast.LENGTH_SHORT).show();
+        boolean hasEmptyFields = TextUtils.isEmpty(productNameString) ||
+                TextUtils.isEmpty(priceString) ||
+                TextUtils.isEmpty(quantityString) ||
+                TextUtils.isEmpty(supplierNameString) ||
+                TextUtils.isEmpty(supplierPhoneString);
+
+        if (hasEmptyFields){
+            Toast.makeText(this, R.string.editor_activity_missing_fields, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -194,14 +200,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // integer value. Use 0 by default.
         int price = 0;
         if (!TextUtils.isEmpty(priceString)){
-            // check if the value is not negative
-            if (Integer.parseInt(priceString) >= 0){
-                price = Integer.parseInt(priceString);
-            }else {
-               Toast.makeText(this, R.string.editor_activity_no_negative_values,Toast.LENGTH_SHORT).show();
-               return;
-            }
-
+            price = Integer.parseInt(priceString);
         }
         values.put(BookEntry.COLUMN_PRICE, price);
 
@@ -209,15 +208,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // integer value. Use 0 by default.
         int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)){
-            // check if the value is not negative
-            if (Integer.parseInt(quantityString) >= 0){
-                quantity = Integer.parseInt(quantityString);
-            }
-            else {
-                Toast.makeText(this, R.string.editor_activity_no_negative_values,Toast.LENGTH_SHORT).show();
-                return;
-            }
-
+            quantity = Integer.parseInt(quantityString);
         }
         values.put(BookEntry.COLUMN_QUANTITY, quantity);
 
@@ -228,21 +219,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (mCurrentBookUri == null){
             //insert new book
             Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
-            if (newUri == null){
-                Toast.makeText(this, R.string.editor_activity_insert_failed, Toast.LENGTH_SHORT).show();
-            } else{
-                Toast.makeText(this, R.string.editor_activity_insert_successful, Toast.LENGTH_SHORT).show();
+            if (newUri != null){
+               Toast.makeText(this, R.string.editor_activity_successful_save, Toast.LENGTH_SHORT).show();
             }
         }else {
             //update existing book
             int rowsUpdated = getContentResolver().update(mCurrentBookUri, values,null,null);
-            // Show a toast message depending on whether or not the update was successful.
-            if (rowsUpdated == 0){
-                // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, R.string.editor_activity_update_failed, Toast.LENGTH_SHORT).show();
-            }else {
-                // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, R.string.editor_activity_update_successful, Toast.LENGTH_SHORT).show();
+            if (rowsUpdated != 0){
+                Toast.makeText(this, R.string.editor_activity_successful_save, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -253,10 +237,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // check whether the deletion was successful
             if (rowsDeleted == 0){
                 //deletion failed
-                Toast.makeText(this, R.string.editor_activity_delete_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_activity_deletion_failed, Toast.LENGTH_SHORT).show();
             }else {
                 //deletion was successful
-                Toast.makeText(this, R.string.editor_activity_delete_successful, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.editor_activity_successful_delete, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -274,4 +258,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             quantity += 1;
             mQuantityEditText.setText(String.valueOf(quantity));
     }
+
+
 }
